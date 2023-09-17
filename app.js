@@ -1,10 +1,13 @@
 import express from "express"
 import mongoose from "mongoose"
 import userRouter from "./routes/user-routes.js"
+import bodyParser from "body-parser"
+
 import 'dotenv/config'
 
 const app = express()
 
+app.use(bodyParser.json())
 app.use("/api/user", userRouter)
 
 mongoose
