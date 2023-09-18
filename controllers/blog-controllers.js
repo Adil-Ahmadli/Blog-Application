@@ -33,7 +33,7 @@ export async function addBlog(req, res, next) {
     return res.status(200).json({newBlog})
 }
 
-export async function getOneBlog(req, res,next) {
+export async function getBlogById(req, res,next) {
     const { id } = req.params
     let blog
     try {
@@ -43,7 +43,46 @@ export async function getOneBlog(req, res,next) {
     }
 
     if (!blog) {
-        return res.status(404).json({messsage: "User does not exist!"})
+        return res.status(404).json({messsage: "Blog does not exist!"})
+    }
+
+    return res.status(200).json({blog})
+}
+
+export async function deleteBlogById(req, res, next){
+    const { id } = req.params
+    let blog
+    try {
+        blog = await Blog.findByIdAndDelete(id)
+    } catch (error) {
+        return res.status(404).json({error})
+    }
+
+    if (!blog) {
+        return res.status(400).json({message: "Blog does not exist!"})
+    }
+
+    return res.status(200).json({blog})
+}
+
+export async function updateBlogById(req, res, next) {
+    const { title, description, image } = req.body
+    const { id } = req.params
+    const update = {
+        title: title,
+        description: description,
+        image: image
+    }
+    let blog
+
+    try {
+        blog = await Blog.findByIdAndUpdate(id, update, {returnDocument: 'after'})
+    } catch (error) {
+        return res.status(404).json({error})
+    }
+
+    if (!blog) {
+        return res.status(400).json({message: "Blog does not exist"})
     }
 
     return res.status(200).json({blog})
