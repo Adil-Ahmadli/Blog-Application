@@ -32,3 +32,19 @@ export async function addBlog(req, res, next) {
 
     return res.status(200).json({newBlog})
 }
+
+export async function getOneBlog(req, res,next) {
+    const { id } = req.params
+    let blog
+    try {
+        blog = await Blog.findById(id)
+    } catch (error) {
+        return res.status(404).json({error})
+    }
+
+    if (!blog) {
+        return res.status(404).json({messsage: "User does not exist!"})
+    }
+
+    return res.status(200).json({blog})
+}
