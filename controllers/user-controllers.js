@@ -9,7 +9,7 @@ export async function getAllUsers(req,res,next) {
     try {
         users = await User.find()
     } catch (error) {
-        console.log(error);
+        return res.status(404).json({message: error})
     }
     if (!users) {
         return res.status(404).json({message: "No users found"})
@@ -24,7 +24,7 @@ export async function signup(req, res, next) {
     try {
         existingUser = await User.findOne({email})
     } catch (error) {
-        console.log(error);
+        return res.status(404).json({message: error})
     }
 
     if (existingUser) {
@@ -42,7 +42,7 @@ export async function signup(req, res, next) {
     try {
         await user.save()
     } catch (error) {
-        console.log(error);
+        return res.status(404).json({message: error})
     }
 
     return res.status(201).json({user})
@@ -55,7 +55,7 @@ export async function login(req, res, next) {
     try {
         existingUser = await User.findOne({email})
     } catch (error) {
-        console.log(error);
+        return res.status(404).json({message: error})
     }
 
     if (!existingUser) {
