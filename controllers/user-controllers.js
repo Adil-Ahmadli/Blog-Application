@@ -3,7 +3,6 @@ import bcrypt from "bcrypt"
 
 const saltRounds = 10;
 
-
 export async function getAllUsers(req,res,next) {
     let users
     try {
@@ -36,7 +35,8 @@ export async function signup(req, res, next) {
     const user = new User({
         name,
         email,
-        password: hashedPwd
+        password: hashedPwd,
+        blogs:[]
     })
 
     try {
